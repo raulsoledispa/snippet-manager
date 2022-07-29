@@ -1,0 +1,70 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+enum ReactionType {
+   LIKED
+   VIEWED
+   COPIED
+}
+
+model Language {
+    id Int @id @default(autoincrement())
+    description String @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime
+    snippet Snippet @relation(fields: [snippetId], references: [id])
+    snippetId Int @unique
+}
+
+
+
+model User {
+  id    Int @id @default(autoincrement())
+  email String @unique
+  password String
+  name String?
+  lastName String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile Profile?
+  snippets Snippet[]
+}
+
+
+model Profile {
+   id    Int @id @default(autoincrement())
+   user User @relation(fields: [userId], references: [id])
+   userId Int @unique
+
+}
+
+
+model Snippet {
+    id Int @id @default(autoincrement())
+    title String
+    description String
+    code String
+    publishedAt DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    authorId Int
+    author User @relation(fields: [authorId], references: [id])
+    language Language?
+    reactions Reaction[]
+}
+
+model Reaction {
+  id Int @id @default(autoincrement())
+  type ReactionType
+  total Int
+  snippet Snippet @relation(fields: [snippetId], references: [id])
+  snippetId Int @unique
+  updatedAt DateTime @default(now())
+}
