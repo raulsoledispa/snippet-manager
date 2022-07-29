@@ -19,7 +19,7 @@ const navigation = [
   { name: 'Calendar', href: '#', current: false },
 ]
 
-const Header = ({ user }) => {
+const HeaderComponent = ({ user }) => {
   return (
     <header className="w-full top-0 flex gap-2 max-w-[90rem]  mx-auto items-center left-0 right-0 h-16 border-b-2 pl-[max(env(safe-area-inset-left),1.5rem)] pr-[max(env(safe-area-inset-right),1.5rem)]">
       <Disclosure as="nav" className="w-full">
@@ -133,4 +133,4 @@ const Header = ({ user }) => {
   )
 }
 
-export default Header;
+export default HeaderComponent;

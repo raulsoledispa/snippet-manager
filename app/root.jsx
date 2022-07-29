@@ -11,7 +11,7 @@ import {
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser, logout } from "./session.server";
-import Header from "./components/header";
+import HeaderComponent from "./components/header.component";
 
 export const links = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
@@ -49,7 +49,7 @@ export default function App() {
       </head>
 
       <body className="h-full">
-      <Header user={user} />
+      <HeaderComponent user={user} />
 
         <Outlet />
         <ScrollRestoration />
