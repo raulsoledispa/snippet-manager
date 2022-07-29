@@ -1,10 +1,19 @@
 import { Link } from "@remix-run/react";
 import Layout from "./layout";
+import { getSession } from "../session.server";
+import { redirect } from "@remix-run/node";
+
+export const loader = async({request}) => {
+  const session = await getSession(request);
+  if (session.has("userId"))  return redirect("home")
+
+  return null
+
+}
 
 export default function Index() {
   return (
     <Layout>
-      {/*<div className="bg-white w-auto px-4 pt-16 pb-8 mx-auto sm:pt-24 lg:px-8">*/}
       <div className="w-auto px-4 pt-16 pb-8 mx-auto sm:pt-24 lg:px-8">
         <h1 className="max-w-5xl text-center mx-auto text-6xl font-extrabold tracking-tighter sm:text-7xl lg:text-8xl xl:text-8xl">
           Share code snippets easily
