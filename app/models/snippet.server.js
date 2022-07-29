@@ -1,25 +1,23 @@
 import { prisma } from "~/db.server";
 
-export async function createSnippet(title, description, languageID, snippet) {
-  return prisma.snippets.create({
+export async function createSnippet(title, description, languageID, code, userId) {
+  return prisma.snippet.create({
     data: {
       title,
       description,
       languageID,
-      codeSnippet: snippet,
-      userID: 1,
-      liked: 0
-      /*user: {
+      code,
+      user: {
         connect: {
-          userID: 1
+          id: userId
         }
-      }*/
+      }
     }
   })
 }
 
 export async function getSnippetsByUserId(userID) {
-  return prisma.snippets.findMany({
+  return prisma.snippet.findMany({
     where: {
       userID
     }
@@ -27,7 +25,7 @@ export async function getSnippetsByUserId(userID) {
 }
 
 export async function getLastPublished(){
-  return prisma.snippets.findMany({
+  return prisma.snippet.findMany({
     orderBy: [
       { createdAt: "desc" }
     ]
@@ -35,7 +33,7 @@ export async function getLastPublished(){
 }
 
 export async function getDataSnippetById(snippetID) {
-  return prisma.snippets.findUnique({
+  return prisma.snippet.findUnique({
     where: {
       snippetID: Number(snippetID)
     }

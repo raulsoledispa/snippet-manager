@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 
-import { createSnippet } from "../../../models/snippets.server";
+import { createSnippet } from "../../../models/snippet.server";
 import { json, redirect } from "@remix-run/node";
 import { getLanguages } from "../../../models/language.server";
 import { useEffect, useRef, useState, useTransition } from "react";

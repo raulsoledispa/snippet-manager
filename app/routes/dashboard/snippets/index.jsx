@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import { getSnippetsByUserId } from "../../../models/snippets.server";
+import { getSnippetsByUserId } from "../../../models/snippet.server";
 import { getUserId } from "../../../session.server";
 import { json } from "@remix-run/node";
 import CardComponent from "../../../components/card.component";

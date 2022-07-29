@@ -5,7 +5,7 @@ import { getUser, logout } from "../session.server";
 import { json, redirect } from "@remix-run/node";
 import { Tab } from '@headlessui/react'
 import Layout from "./layout";
-import { getLastPublished } from "../models/snippets.server";
+import { getLastPublished } from "../models/snippet.server";
 import CardComponent from "../components/card.component";
 
 

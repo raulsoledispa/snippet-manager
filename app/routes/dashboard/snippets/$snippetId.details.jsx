@@ -1,4 +1,4 @@
-import { addLikedToSnippet, getDataSnippetById } from "../../../models/snippets.server";
+import { addLikedToSnippet, getDataSnippetById } from "../../../models/snippet.server";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import { useEffect, useState } from "react";
