@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { Form, Link, useLoaderData, useSearchParams, useSubmit } from "@remix-run/react";
-import { getUser, logout } from "../session.server";
+import { getUser, logout, requireUserSession } from "../session.server";
 import { json, redirect } from "@remix-run/node";
 import { Tab } from '@headlessui/react'
 import Layout from "./layout";
@@ -11,12 +11,11 @@ import CardComponent from "../components/card.component";
 
 
 export const loader = async ({request}) =>{
+
+  await requireUserSession(request)
+
   const url = new URL(request.url);
   const type = url.searchParams.get("filterBy");
-
-  const user = await getUser(request);
-
-  if(user === null) return redirect("/")
 
   const lastPublished = await getLastPublished();
 
@@ -87,8 +86,8 @@ const Home = () => {
             >
               <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {
-                  lastPublished.map(({snippetID, title, description, createdAt}) => (
-                    <CardComponent key={snippetID} title={title} description={description} createdAt={createdAt} id={snippetID} />
+                  lastPublished.map(({id, title, description, createdAt}) => (
+                    <CardComponent key={id} title={title} description={description} createdAt={createdAt} id={id} />
                   ))
                 }
               </div>
@@ -102,8 +101,8 @@ const Home = () => {
             >
               <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {
-                  lastPublished.map(({snippetID, title, description, createdAt}) => (
-                    <CardComponent key={snippetID} title={title} description={description} createdAt={createdAt} id={snippetID} />
+                  lastPublished.map(({id, title, description, createdAt}) => (
+                    <CardComponent key={id} title={title} description={description} createdAt={createdAt} id={id} />
                   ))
                 }
               </div>
