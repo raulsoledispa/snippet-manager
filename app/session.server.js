@@ -23,6 +23,20 @@ export async function getSession(request) {
   return sessionStorage.getSession(cookie);
 }
 
+export async function requireUserSession(request) {
+  // get the session
+  const session = await getSession(request);
+
+  // validate the session, `userId` is just an example, use whatever value you
+  // put in the session when the user authenticated
+  if (!session.has("userId")) {
+    // if there is no user session, redirect to login
+    throw redirect("/login");
+  }
+
+  return session;
+}
+
 export async function getUserId(request) {
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY);
@@ -31,10 +45,9 @@ export async function getUserId(request) {
 
 export async function getUser(request) {
   const userId = await getUserId(request);
-  console.log(userId)
   if (userId === undefined) {
     return null;
-  };
+  }
 
   const user = await getUserById(userId);
   if (user) return user;
