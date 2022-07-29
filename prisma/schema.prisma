@@ -20,8 +20,7 @@ model Language {
     description String @unique
     createdAt DateTime @default(now())
     updatedAt DateTime
-    snippet Snippet @relation(fields: [snippetId], references: [id])
-    snippetId Int @unique
+    snippets Snippet[]
 }
 
 
@@ -56,15 +55,18 @@ model Snippet {
     updatedAt     DateTime @updatedAt
     authorId Int
     author User @relation(fields: [authorId], references: [id])
-    language Language?
+    languageId Int
+    language Language @relation(fields: [languageId], references: [id])
     reactions Reaction[]
+//    reactionId Int
+//    reaction Reaction @relation(fields: [reactionId], references: [id])
 }
 
 model Reaction {
   id Int @id @default(autoincrement())
   type ReactionType
   total Int
-  snippet Snippet @relation(fields: [snippetId], references: [id])
-  snippetId Int @unique
   updatedAt DateTime @default(now())
+  snippetId Int
+  snippet Snippet @relation(fields: [snippetId], references: [id])
 }
