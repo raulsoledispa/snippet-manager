@@ -1,13 +1,20 @@
 import { prisma } from "~/db.server";
 
-export async function createSnippet(title, description, languageID, code, userId) {
+export async function createSnippet(title, description, languageId, code, userId) {
   return prisma.snippet.create({
+    include: {
+      author: true
+    },
     data: {
       title,
       description,
-      languageID,
       code,
-      user: {
+      language: {
+        connect: {
+          id: Number(languageId)
+        }
+      },
+      author: {
         connect: {
           id: userId
         }
@@ -27,7 +34,7 @@ export async function getSnippetsByUserId(userID) {
 export async function getLastPublished(){
   return prisma.snippet.findMany({
     orderBy: [
-      { createdAt: "desc" }
+      { publishedAt: "desc" }
     ]
   })
 }
