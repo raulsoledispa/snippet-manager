@@ -8,7 +8,7 @@ import {
   useSubmit,
 } from "@remix-run/react";
 import { requireUserSession } from "../session.server";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Tab } from "@headlessui/react";
 import Layout from "./layout";
 import {
@@ -26,29 +26,26 @@ export const loader = async ({ request }) => {
 
   let snippetCodes = {};
 
-  if (type !== "trending") snippetCodes = await getLastPublished();
-  else snippetCodes = await getTrendingSnippets();
-
-  /*const lastPublished = await getTrendingSnippets();//getLastPublished();
-   */
+  if (type === "trending" || type === null) snippetCodes = await getTrendingSnippets();
+  else if( type === "lastPublished")   snippetCodes = await getLastPublished();
+  else throw new Response("Not Found", {
+      status: 404,
+    });
 
   return json({ snippetCodes });
 };
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  console.log("formData ", JSON.stringify(formData));
   const _action = formData.get("_action");
   const snippetId = formData.get("snippetId");
   const reactionId = formData.get("reactionId");
   const total = formData.get("reactionTotal");
 
   if (_action === "addReaction") {
-    return addReactionToSnippet(snippetId, reactionId, total);
+    await addReactionToSnippet(snippetId, reactionId, total);
+    return redirect(`dashboard/snippets/${snippetId}/details`)
   }
-
-  //console.log(...values)
-  //await addReactionToSnippet()
   return null;
 };
 
