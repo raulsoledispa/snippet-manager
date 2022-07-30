@@ -37,7 +37,7 @@ export async function action({ request }) {
 
   if (!user) {
     return json(
-      { errors: { email: "Invalid email or password", password: null } },
+      { error: { message: "Invalid email or password" } },
       { status: 400 }
     );
   }
@@ -63,6 +63,8 @@ export default function LoginPage() {
   const { errors } = formState;
   const transition = useTransition();
   const isSubmitting = Boolean(transition.submission)
+
+  console.log("errors in login ", errors)
 
   return (
     <Layout>
