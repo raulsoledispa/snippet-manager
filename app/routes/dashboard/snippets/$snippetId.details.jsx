@@ -8,6 +8,7 @@ export const loader = async({params}) =>{
   console.log("llega por id")
   const snippetId = params.snippetId;
   const snippetData = await getDataSnippetById(snippetId);
+  console.log(snippetData)
   return json({snippetData})
 }
 
@@ -35,12 +36,12 @@ const SnippetDetail = () => {
     <div className="flex w-full">
       <div className="w-full mr-4 ml-4 mt-8">
         <h2 className="font-medium border-b-2 text-2xl">{snippetData.title}</h2>
-        <span>{`By ${snippetData.userID}`}</span>
+        <span>{`By ${snippetData.author.email}`}</span>
         <p className="text-base">{snippetData.description}</p>
         <div>
           <pre>
-            <code className={`language-${snippetData.languageID}`}>
-            {snippetData.codeSnippet}
+            <code className={`language-${snippetData.language.description}`}>
+            {snippetData.code}
             </code>
           </pre>
 

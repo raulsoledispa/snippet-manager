@@ -48,3 +48,16 @@ export async function verifyLogin(email, password) {
 
   return userWithoutPassword;
 }
+
+/*
+export async function getTrendingSnippetsByUserId(id){
+  const snippets = await prisma.user.findMany({
+    where: {
+      id
+    },
+    include:{
+      snippets: true
+    }
+  })
+}
+*/

@@ -1,41 +1,8 @@
 import { getUser } from "../session.server";
 import { redirect } from "@remix-run/node";
-import { Link, NavLink, Outlet } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import Navbar from "../components/navbar.component";
 import Layout from "./layout";
-
-// eslint-disable-next-line no-unused-vars
-import Prism from "prismjs";
-import jsStyles from 'prismjs/components/prism-javascript';
-import defaultThemeStyles from 'prism-themes/themes/prism-vs.css';
-import jsonStyles from 'prismjs/components/prism-json';
-import customEditorStyles from "~/styles/editor.css"
-import buttonStyles from "~/styles/button.css"
-
-export const links = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: jsStyles
-    },
-    {
-      rel: "stylesheet",
-      href: defaultThemeStyles
-    },
-    {
-      rel: "stylesheet",
-      href: jsonStyles
-    },
-    {
-      rel: "stylesheet",
-      href: customEditorStyles
-    },
-    {
-      rel: "stylesheet",
-      href: buttonStyles
-    }
-  ]
-}
 
 
 export const loader = async ({request}) =>{

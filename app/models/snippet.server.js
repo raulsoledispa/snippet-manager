@@ -23,10 +23,14 @@ export async function createSnippet(title, description, languageId, code, userId
   })
 }
 
-export async function getSnippetsByUserId(userID) {
+export async function getSnippetsByUserId(id) {
   return prisma.snippet.findMany({
     where: {
-      userID
+      authorId: id
+    },
+    include: {
+      language: true,
+      author: true
     }
   })
 }
@@ -34,15 +38,21 @@ export async function getSnippetsByUserId(userID) {
 export async function getLastPublished(){
   return prisma.snippet.findMany({
     orderBy: [
-      { publishedAt: "desc" }
-    ]
+      { publishedAt: "desc" },
+    ],
+    include: {
+      author: true, language: true
+    }
   })
 }
 
 export async function getDataSnippetById(snippetID) {
   return prisma.snippet.findUnique({
     where: {
-      snippetID: Number(snippetID)
+      id: Number(snippetID)
+    },
+    include: {
+      author: true, language: true
     }
   })
 }
