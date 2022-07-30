@@ -1,20 +1,42 @@
 import { json } from "@remix-run/node";
-import {
-  Link,
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration, useLoaderData
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { getUser, logout } from "./session.server";
+import { getSession, logout } from "./session.server";
 import HeaderComponent from "./components/header.component";
 
+
+// eslint-disable-next-line no-unused-vars
+import Prism from "prismjs";
+import jsStyles from 'prismjs/components/prism-javascript';
+import defaultThemeStyles from 'prism-themes/themes/prism-vs.css';
+import jsonStyles from 'prismjs/components/prism-json';
+import customEditorStyles from "~/styles/editor.css"
+import buttonStyles from "~/styles/button.css"
+
+
+
 export const links = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, {
+    rel: "stylesheet",
+    href: jsStyles
+  },
+    {
+      rel: "stylesheet",
+      href: defaultThemeStyles
+    },
+    {
+      rel: "stylesheet",
+      href: jsonStyles
+    },
+    {
+      rel: "stylesheet",
+      href: customEditorStyles
+    },
+    {
+      rel: "stylesheet",
+      href: buttonStyles
+    }];
 };
 
 export const meta = () => ({
@@ -24,17 +46,13 @@ export const meta = () => ({
 });
 
 export const action = async({request}) => {
-  console.log("logout...")
-  const formData = await request.formData();
-  const action = formData.get("action");
-  console.log(`Action to execute ${action}`)
-
   return logout(request)
 }
 
 export async function loader({ request }) {
+  const { data : { userId }} = await getSession(request);
   return json({
-    user: await getUser(request),
+    user: userId,
   });
 }
 
