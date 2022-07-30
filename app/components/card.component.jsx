@@ -1,7 +1,12 @@
-import { Link } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { useEffect } from "react";
 import Prism from "prismjs";
 import { formatEmailToUsername } from "../utils";
+
+export const action = async ({ request }) => {
+  console.log("adding reaction");
+  return null;
+};
 
 const CardComponent = ({
   title,
@@ -11,6 +16,8 @@ const CardComponent = ({
   code,
   language,
   author,
+  reaction,
+  type,
 }) => {
   useEffect(() => {
     Prism.highlightAll();
@@ -35,16 +42,24 @@ const CardComponent = ({
         <p className="tex-left">{description}</p>
       </div>
 
-      <Link
-        className="mt-4 flex w-1/2 items-center justify-center rounded-md border border-transparent bg-blue-600
-                bg-black px-4 py-2 text-base font-medium text-white
-                text-white no-underline
-                shadow-lg hover:bg-blue-600 md:bg-black
+      <Form method="post" className="flex w-full justify-center">
+        <input type="hidden" name="snippetId" value={id} />
+        <input type="hidden" name="reactionId" value={reaction?.id} />
+        <input type="hidden" name="reactionTotal" value={reaction?.total} />
+
+        <button
+          type="submit"
+          name="_action"
+          value="addReaction"
+          className="mt-4 flex w-1/2 items-center justify-center rounded-md
+                border border-transparent bg-blue-600
+                px-4 py-2 text-base font-medium text-white
+                text-white no-underline shadow-lg
                 md:py-3 md:px-10 md:text-lg md:leading-6"
-        to={`/dashboard/snippets/${id}/details`}
-      >
-        View Snippet
-      </Link>
+        >
+          View Snippet
+        </button>
+      </Form>
 
       <div className="mt-4 flex w-full place-content-between items-center border-t-2">
         <div className="w-1/2 text-sm text-black">
@@ -55,12 +70,23 @@ const CardComponent = ({
           className="flex h-10 w-1/2 place-content-around items-center
         justify-end rounded rounded-3xl border-transparent bg-transparent md:hover:opacity-70"
         >
-          <img
-            src="/love-like-filled.svg"
-            className="mr-1 h-5 w-5"
-            alt="Love Icon"
-          />
-          <span className="font-medium text-gray-500">{11}</span>
+          {type === "trending" ? (
+            <>
+              <img
+                src="/love-like-filled.svg"
+                className="mr-1 h-5 w-5"
+                alt="Love Icon"
+              />
+
+              <span className="font-medium text-gray-500">
+                {reaction?.total || 0}
+              </span>
+            </>
+          ) : (
+            <span className="w-1/2 text-sm text-black">
+              {new Date(publishedAt).toLocaleDateString()}
+            </span>
+          )}
         </button>
       </div>
     </div>

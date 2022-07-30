@@ -1,14 +1,12 @@
 import { prisma } from "~/db.server";
 
-export async function addReactionToSnippet(snippetId, reactionType) {
-  console.log(prisma);
-  console.log(reactionType);
-
-  return prisma.reaction.create({
+export async function addReactionToSnippet(snippetId, reactionId, total) {
+  return prisma.reaction.update({
+    where: {
+      id: Number(reactionId),
+    },
     data: {
-      type: prisma.reactionType.LIKED,
-      total: 1,
-      snippetId,
+      total: Number(total) + 1,
     },
   });
 }

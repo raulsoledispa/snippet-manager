@@ -25,6 +25,18 @@ export async function createSnippet(
           id: userId,
         },
       },
+      reactions: {
+        create: [
+          {
+            type: "VIEWED",
+            total: 0,
+          },
+          {
+            type: "LIKED",
+            total: 0,
+          },
+        ],
+      },
     },
   });
 }
@@ -47,6 +59,27 @@ export async function getLastPublished() {
     include: {
       author: true,
       language: true,
+      reactions: true,
+    },
+  });
+}
+
+export async function getTrendingSnippets() {
+  return prisma.snippet.findMany({
+    include: {
+      author: true,
+      language: true,
+      reactions: {
+        orderBy: {
+          total: "desc",
+        },
+        where: {
+          total: {
+            not: 0,
+          },
+          type: "LIKED",
+        },
+      },
     },
   });
 }
