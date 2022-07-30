@@ -50,7 +50,7 @@ model Snippet {
     id Int @id @default(autoincrement())
     title String
     description String
-    code String
+    code String @db.Text
     publishedAt DateTime @default(now())
     updatedAt     DateTime @updatedAt
     authorId Int
@@ -58,8 +58,6 @@ model Snippet {
     languageId Int
     language Language @relation(fields: [languageId], references: [id])
     reactions Reaction[]
-//    reactionId Int
-//    reaction Reaction @relation(fields: [reactionId], references: [id])
 }
 
 model Reaction {
