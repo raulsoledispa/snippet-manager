@@ -1,21 +1,25 @@
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, Transition } from "@headlessui/react";
 import { Form, NavLink } from "@remix-run/react";
-import { Fragment } from 'react'
-
+import { Fragment } from "react";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 const Navbar = () => {
-
-
   return (
-
-    <Menu as="div" className="relative inline-block text-left md:w-1/4 md:sticky">
-      <div className="border-b-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-        <Menu.Button className="inline-flex justify-center rounded-none px-4 py-2 bg-gray text-sm font-medium text-gray-700 hover:bg-gray-50">
-          <img src="/arrow-right.svg" className="h-4 w-4"  alt="Arrow Right Icon"/> Menu
+    <Menu
+      as="div"
+      className="relative inline-block text-left md:sticky md:w-1/4"
+    >
+      <div className="border-b-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <Menu.Button className="bg-gray inline-flex justify-center rounded-none px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <img
+            src="/arrow-right.svg"
+            className="h-4 w-4"
+            alt="Arrow Right Icon"
+          />{" "}
+          Menu
         </Menu.Button>
       </div>
 
@@ -28,15 +32,15 @@ const Navbar = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-0 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 mt-0 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
                 <NavLink
                   to=""
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
                 >
                   Dashboard
@@ -48,8 +52,8 @@ const Navbar = () => {
                 <NavLink
                   to="snippets"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
                 >
                   Snippet
@@ -60,8 +64,7 @@ const Navbar = () => {
         </Menu.Items>
       </Transition>
     </Menu>
-
-  )
-}
+  );
+};
 
 export default Navbar;

@@ -96,7 +96,7 @@ export async function createUserSession({
 }
 
 export async function logout(request) {
-  console.log("logout session")
+  console.log("logout session");
   const session = await getSession(request);
   return redirect("/", {
     headers: {

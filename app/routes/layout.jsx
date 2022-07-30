@@ -1,11 +1,11 @@
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
     <>
-      <main className="max-w-[80rem] w-full mx-auto bg-transparent">
+      <main className="mx-auto w-full max-w-[80rem] bg-transparent">
         {children}
       </main>
     </>
-  )
-}
+  );
+};
 
 export default Layout;

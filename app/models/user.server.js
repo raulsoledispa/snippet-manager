@@ -10,14 +10,13 @@ export async function getUserByEmail(email) {
   return prisma.user.findUnique({ where: { email } });
 }
 
-
 export async function createUser(email, password) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   return prisma.user.create({
     data: {
       email,
-      password: hashedPassword
+      password: hashedPassword,
     },
   });
 }
@@ -28,17 +27,14 @@ export async function deleteUserByEmail(email) {
 
 export async function verifyLogin(email, password) {
   const userWithPassword = await prisma.user.findUnique({
-    where: { email }
+    where: { email },
   });
 
   if (!userWithPassword || !userWithPassword.password) {
     return null;
   }
 
-  const isValid = await bcrypt.compare(
-    password,
-    userWithPassword.password
-  );
+  const isValid = await bcrypt.compare(password, userWithPassword.password);
 
   if (!isValid) {
     return null;

@@ -64,6 +64,6 @@ export function validateEmail(email) {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
 
-export function formatEmailToUsername(email){
-  return `@${email.slice(0, email.indexOf("@"))}` ;
+export function formatEmailToUsername(email) {
+  return `@${email.slice(0, email.indexOf("@"))}`;
 }

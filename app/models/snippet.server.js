@@ -1,9 +1,15 @@
 import { prisma } from "~/db.server";
 
-export async function createSnippet(title, description, languageId, code, userId) {
+export async function createSnippet(
+  title,
+  description,
+  languageId,
+  code,
+  userId
+) {
   return prisma.snippet.create({
     include: {
-      author: true
+      author: true,
     },
     data: {
       title,
@@ -11,63 +17,61 @@ export async function createSnippet(title, description, languageId, code, userId
       code,
       language: {
         connect: {
-          id: Number(languageId)
-        }
+          id: Number(languageId),
+        },
       },
       author: {
         connect: {
-          id: userId
-        }
-      }
-    }
-  })
+          id: userId,
+        },
+      },
+    },
+  });
 }
 
 export async function getSnippetsByUserId(id) {
   return prisma.snippet.findMany({
     where: {
-      authorId: id
+      authorId: id,
     },
     include: {
       language: true,
-      author: true
-    }
-  })
+      author: true,
+    },
+  });
 }
 
-export async function getLastPublished(){
+export async function getLastPublished() {
   return prisma.snippet.findMany({
-    orderBy: [
-      { publishedAt: "desc" },
-    ],
+    orderBy: [{ publishedAt: "desc" }],
     include: {
-      author: true, language: true
-    }
-  })
+      author: true,
+      language: true,
+    },
+  });
 }
 
 export async function getDataSnippetById(snippetID) {
   return prisma.snippet.findUnique({
     where: {
-      id: Number(snippetID)
+      id: Number(snippetID),
     },
     include: {
-      author: true, language: true
-    }
-  })
+      author: true,
+      language: true,
+    },
+  });
 }
 
-
 export async function addLikedToSnippet(snippetID, state) {
-
   const snippet = await getDataSnippetById(snippetID);
-  const count = state === "liked" ? snippet.liked + 1 : snippet.liked -1;
+  const count = state === "liked" ? snippet.liked + 1 : snippet.liked - 1;
   return prisma.snippets.update({
     where: {
-      snippetID: Number(snippetID)
+      snippetID: Number(snippetID),
     },
-    data:{
-      liked: count
-    }
-  })
+    data: {
+      liked: count,
+    },
+  });
 }
